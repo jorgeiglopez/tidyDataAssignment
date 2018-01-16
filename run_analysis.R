@@ -1,5 +1,5 @@
 ## Configuration of working directory
-## setwd("./coursera-wd")  << put your own wd, were the files are.
+## setwd("./coursera-wd")  << put your own wd, where the files are.
 
 ## Importe the libraries that we're gonna use
 library(dplyr)
@@ -51,11 +51,13 @@ colnames(trainSubject) <- "SubjectId"
 testComplete <- cbind(actTest, testSubject, testX1)
 trainComplete <- cbind(actTrain, trainSubject, trainX1)
 merged <- rbind(testComplete, trainComplete)
-message("The tidy data set joining train and test is ready! It's called merged.")
 
 ## 5 Average of variables grouped by activity and subject
 meltValues <- melt(merged, id=c("Activity","SubjectId"), measure.vars = 3:68)
 decasted <- dcast(meltValues, Activity + SubjectId ~ variable, mean)
 head(decasted)
+message("The tidy data set joining train and test is ready! It's called merged.")
 message("Average of variables grouped by activity and subject is Ready!")
 message("To check the full list, try: View(decasted)")
+
+write.table(merged, file = paste0(getwd(),"/tidy_data5.txt"), row.names = FALSE)
